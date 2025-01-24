@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claim Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/view_claim.css') }}">
+</head>
+<body>
+
+<div class="claim-details-container">
+    <h1>Claim Details for ID: {{ claim.id }}</h1>
+    
+    <!-- Parallel Display of Claim Information -->
+    <div class="claim-info-grid">
+        <div>
+            <h2>Claim Information</h2>
+            <p><strong>Claim Type:</strong> {{ claim.claim_type }}</p>
+            <p><strong>Claim Date:</strong> {{ claim.claim_date.strftime('%Y-%m-%d') }}</p>
+            <p><strong>Policy Number:</strong> {{ claim.customer_id }}</p>
+            <p><strong>Proposer Name:</strong> {{ claim.proposer_name }}</p>
+        </div>
+
+        <div>
+            <h2>Patient Details</h2>
+            <p><strong>Patient Name:</strong> {{ claim.patient_name }}</p>
+            <p><strong>Patient Gender:</strong> {{ claim.patient_gender }}</p>
+            <p><strong>Patient Age:</strong> {{ claim.patient_age }}</p>
+            <p><strong>Relationship to Proposer:</strong> {{ claim.patient_relationship }}</p>
+        </div>
+
+        <div>
+            <h2>Medical Details</h2>
+            <p><strong>Diagnosis:</strong> {{ claim.diagnosis }}</p>
+            <p><strong>Procedure Type:</strong> {{ claim.procedure_type }}</p>
+            <p><strong>Admission Date:</strong> {{ claim.admission_date.strftime('%Y-%m-%d') }}</p>
+            <p><strong>Discharge Date:</strong> {{ claim.discharge_date.strftime('%Y-%m-%d') }}</p>
+            <p><strong>Type of Admission:</strong> {{ claim.admission_type }}</p>
+        </div>
+
+        <div>
+            <h2>Financial Details</h2>
+            <p><strong>Hospitalization Expenses:</strong> ${{ claim.hospitalization_expenses }}</p>
+            <p><strong>Pre-hospitalization Expenses:</strong> ${{ claim.pre_hospitalization_expenses or 0 }}</p>
+            <p><strong>Post-hospitalization Expenses:</strong> ${{ claim.post_hospitalization_expenses or 0 }}</p>
+            <p><strong>Ambulance Charges:</strong> ${{ claim.ambulance_charges or 0 }}</p>
+            <p><strong>Amount Claimed:</strong> ${{ claim.amount_claimed }}</p>
+        </div>
+    </div>
+
+    <!-- Document Download Section -->
+    <div class="document-section">
+        <h2>Documents for Verification</h2>
+        <ul>
+            {% if claim.final_bill %}
+                <li><a href="{{ url_for('static', filename='documents/' + claim.final_bill) }}" download>Download Final Bill</a></li>
+            {% endif %}
+            {% if claim.diagnostic_reports %}
+                <li><a href="{{ url_for('static', filename='documents/' + claim.diagnostic_reports) }}" download>Download Diagnostic Reports</a></li>
+            {% endif %}
+            {% if claim.prescriptions %}
+                <li><a href="{{ url_for('static', filename='documents/' + claim.prescriptions) }}" download>Download Prescriptions</a></li>
+            {% endif %}
+            {% if claim.accident_report %}
+                <li><a href="{{ url_for('static', filename='documents/' + claim.accident_report) }}" download>Download Accident Report</a></li>
+            {% endif %}
+        </ul>
+    </div>
+
+    <!-- Model Recommendation Section -->
+    <div class="model-recommendation">
+        {% if not recommendation %}
+            <div class="validate-section">
+                <button class="validate-btn" onclick="window.location.href='/validate_claim/{{ claim.id }}';">
+                    Validate Claim
+                </button>
+            </div>
+        {% endif %}
+
+<!-- Model Recommendation Section - Only show if recommendation exists -->
+        {% if recommendation %}
+            <div class="model-recommendation">
+                <h2>Model Recommendation</h2>
+                <p><strong>Recommended Action:</strong> {% if recommendation.action %} {{ claim.status }} {% else %} None {% endif %}</p>
+            </div>           
+    </div>
+
+    <!-- Agent Decision Section -->
+            <div class="agent-decision">
+                <h2>Agent Decision</h2>
+                <form action="{{ url_for('agent_decision') }}" method="POST">
+                    <input type="hidden" name="claim_id" value="{{ claim.id }}">
+                    <label for="decision">Decision:</label>
+                    <select id="decision" name="decision">
+                        <option value="Approve">Approve</option>
+                        <option value="Reject">Reject</option>
+                    </select>
+                    <br>
+                    <label for="notes">Notes:</label>
+                    <textarea id="notes" name="notes" rows="4"></textarea>
+                    <br>
+                    <button type="submit">Submit Decision</button>
+                </form>
+            </div>
+        {% endif %}
+
+
+</div>
+
+</body>
+</html>

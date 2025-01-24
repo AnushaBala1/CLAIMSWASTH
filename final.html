@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluated Claim</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/final.css') }}">
+</head>
+<body>
+    <div class="evaluated-claim-container">
+        <!-- Header Section -->
+        <header>
+            <h1>Claim Evaluation</h1>
+            <h2>Claim ID: {{ claim.id }}</h2>
+        </header>
+
+        <!-- Model Recommendation -->
+        <section class="model-recommendation">
+            <h2>Model Recommendation</h2>
+            <p><strong>Recommended Action:</strong> {{ claim.status }}</p>
+        </section>
+
+        <!-- Claim Summary -->
+        <section class="claim-summary">
+            <h2>Claim Summary</h2>
+            <div class="summary-grid">
+                <div>
+                    <h3>Proposer & Patient Info</h3>
+                    <p><strong>Proposer Name:</strong> {{ claim.proposer_name }}</p>
+                    <p><strong>Policy Number:</strong> {{ claim.customer_id }}</p>
+                    <p><strong>Patient Name:</strong> {{ claim.patient_name }}</p>
+                    <p><strong>Patient Age:</strong> {{ claim.patient_age }} years</p>
+                    <p><strong>Relationship:</strong> {{ claim.patient_relationship }}</p>
+                </div>
+                <div>
+                    <h3>Medical Info</h3>
+                    <p><strong>Diagnosis:</strong> {{ claim.diagnosis }}</p>
+                    <p><strong>Procedure:</strong> {{ claim.procedure_type }}</p>
+                    <p><strong>Admission:</strong> {{ claim.admission_date.strftime('%Y-%m-%d') }}</p>
+                    <p><strong>Discharge:</strong> {{ claim.discharge_date.strftime('%Y-%m-%d') }}</p>
+                </div>
+                <div>
+                    <h3>Financial Details</h3>
+                    <p><strong>Claimed Amount:</strong> ${{ claim.amount_claimed }}</p>
+                    <p><strong>Hospitalization Expenses:</strong> ${{ claim.hospitalization_expenses }}</p>
+                    <p><strong>Pre-Hospitalization:</strong> ${{ claim.pre_hospitalization_expenses }}</p>
+                    <p><strong>Post-Hospitalization:</strong> ${{ claim.post_hospitalization_expenses }}</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Document Verification -->
+        <section class="documents">
+            <h2>Document Verification</h2>
+            {% if evaluation.documents %}
+            <ul>
+                <li>Final Bill: {{ evaluation.documents.final_bill_status }}</li>
+                <li>Prescriptions: {{ evaluation.documents.prescriptions_status }}</li>
+                <li>Diagnostic Reports: {{ evaluation.documents.diagnostic_reports_status }}</li>
+                {% if evaluation.documents.accident_report_status %}
+                    <li>Accident Report: {{ evaluation.documents.accident_report_status }}</li>
+                {% endif %}
+            </ul>
+            {% else %}
+            <p>No document evaluation data available.</p>
+            {% endif %}
+        </section>
+        
+        <div class="return-dashboard">
+            <button onclick="window.location.href='/view_claim/{{ claim.id }}';"></button>>Return to Dashboard</button>
+        </div>        
+    </div>
+</body>
+</html>

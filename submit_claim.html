@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit a Claim</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/submit_claim.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Submit a Claim</h1>
+
+        <form id = "claimForm" action="{{ url_for('submit_claim') }}" method="POST" enctype="multipart/form-data">
+            
+            <section class="form-section">
+                <h2>Claim Information</h2>
+                <div class="form-group">
+                    <label>Claim Type:</label>
+                    <select name="claim_type" required>
+                        <option value="In_Patient Treatment">In_Patient Treatment</option>
+                        <option value="Day Care Procedure">Day Care Procedure</option>
+                        <option value="Pre- Authorization">Pre- Authorization</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Claim Date:</label>
+                    <input type="date" name="claim_date" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Policy Type:</label>
+                    <input type="text" name="policy_type" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Policy Coverage:</label>
+                    <input type="number" name="policy_coverage" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Policy Period(start date):</label>
+                    <input type="date" name="policy_start_date" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Policy Period(end date):</label>
+                    <input type="date" name="policy_end_date" required>
+                </div>
+
+            </section>
+
+            <section class="form-section">
+                <h2>Proposer and Patient Details</h2>
+                <div class="form-group">
+                    <label>Proposer Name:</label>
+                    <input type="text" name="proposer_name" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Customer ID (if applicable):</label>
+                    <input type="text" name="customer_id">
+                </div>
+
+                <div class="form-group">
+                    <label>Patient Name:</label>
+                    <input type="text" name="patient_name" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Patient Gender:</label>
+                    <select name="patient_gender" required>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Patient Age:</label>
+                    <input type="number" name="patient_age" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Patient Relationship to Proposer:</label>
+                    <select name="patient_relationship" required>
+                        <option value="self">Self</option>
+                        <option value="spouse">Spouse</option>
+                        <option value="child">Child</option>
+                    </select>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <h2>Medical Details</h2>
+                <div class="form-group">
+                    <label>Accident Date (if applicable):</label>
+                    <input type="date" name="accident_date">
+                </div>
+
+                <div class="form-group">
+                    <label>Accident Time (if applicable):</label>
+                    <input type="time" name="accident_time">
+                </div>
+
+                <div class="form-group">
+                    <label>Reported to Police:</label>
+                    <select name="reported_to_police" required>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Previous Claims:</label>
+                    <select name="previous_claims" required>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Diagnosis:</label>
+                    <input type="text" name="diagnosis" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Procedure Type:</label>
+                    <select name="procedure_type" required>
+                        <option value="medical">Medical</option>
+                        <option value="surgical">Surgical</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Date of Admission:</label>
+                    <input type="date" name="admission_date" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Date of Discharge:</label>
+                    <input type="date" name="discharge_date" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Type of Admission:</label>
+                    <select name="admission_type" required>
+                        <option value="emergency">Emergency</option>
+                        <option value="planned">Planned</option>
+                        <option value="day_care">Day Care</option>
+                        <option value="maternity">Maternity</option>
+                    </select>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <h2>Financial Details</h2>
+                
+                <div class="form-group">
+                    <label>Hospitalization Expenses:</label>
+                    <input type="number" name="hospitalization_expenses" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Pre-hospitalization Expenses:</label>
+                    <input type="number" name="pre_hospitalization_expenses">
+                </div>
+                
+
+                <div class="form-group">
+                    <label>Post-hospitalization Expenses:</label>
+                    <input type="number" name="post_hospitalization_expenses">
+                </div>
+
+                <div class="form-group">
+                    <label>Ambulance Charges:</label>
+                    <input type="number" name="ambulance_charges">
+                </div>
+
+                <div class="form-group">
+                    <label>Other Expenses:</label>
+                    <input type="number" name="other_expenses">
+                </div>
+
+                <div class="form-group">
+                    <label>Amount_Claimed:</label>
+                    <input type="number" name="Amount_Claimed">
+                </div>
+
+            </section>
+
+            <section class="form-section">
+                <h2>Treating Doctor's and Hospital Details</h2>
+                <div class="form-group">
+                    <label>Hospital Name:</label>
+                    <input type="text" name="hospital_name" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Hospital City:</label>
+                    <input type="text" name="hospital_city" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Hospital Type:</label>
+                    <select name="hospital_type" required>
+                        <option value="network">Network</option>
+                        <option value="non_network">Non-Network</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Treating Doctor Name:</label>
+                    <input type="text" name="treating_doctor_name" required>
+                </div>
+
+            </section>
+
+            <section class="form-section">
+                <h2>Additional Documentation</h2>
+                <div class="form-group">
+                    <label>Upload Hospital Final Bill:</label>
+                    <input type="file" name="final_bill" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Upload Diagnostic Reports:</label>
+                    <input type="file" name="diagnostic_reports" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Upload Prescriptions:</label>
+                    <input type="file" name="prescriptions" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Upload Accident Report (if applicable):</label>
+                    <input type="file" name="accident_report">
+                </div>
+            </section>
+
+            <button type="submit" id="submitClaimBtn">Submit Claim</button>
+        </form>
+    </div>
+    
+</body>
+</html>
